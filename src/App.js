@@ -22,18 +22,21 @@ class App extends Component {
     this.findPaths(x, y);
   }
 
-  visualizePath = (path, x = 0, y = 0) => {
-    const myGrid = this.state.grid;
+  visualizePath = (path, x = 0, y = 0, initial = true) => {
     if (!path) {
+      console.log("Finished");
       return;
     }
-    console.log(myGrid, y, x, path[0], path);
-    myGrid[y][x] = path[0];
 
-    if (path[0] === "E") {
-      x++;
-    } else {
-      y++;
+    const myGrid = this.state.grid;
+    myGrid[x][y] = path[0];
+
+    if (!initial) {
+      if (myGrid[x][y] === "E") {
+        x++;
+      } else {
+        y++;
+      }
     }
 
     this.setState(
@@ -42,9 +45,8 @@ class App extends Component {
       },
       () => {
         setTimeout(() => {
-          this.visualizePath(path.substr(1, path.length), x, y);
-          console.log(path[0], x, y);
-        }, 250);
+          this.visualizePath(path.substring(1), x, y, false);
+        }, 150);
       }
     );
     console.log(myGrid);
@@ -52,7 +54,7 @@ class App extends Component {
 
   findPaths = async () => {
     const result = await test(this.state.x, this.state.y);
-    this.visualizePath(result[13371]);
+    this.visualizePath(result[3]);
   };
 
   render() {
@@ -60,7 +62,12 @@ class App extends Component {
       return (
         <tr key={`row${index}`} style={{ height: `${60 / this.state.x}vh` }}>
           {row.map((item, subIndex) => {
-            return <td key={`column${index}-${subIndex}`} className={item} />;
+            return (
+              <td
+                key={`column${index}-${subIndex}`}
+                className={`cell ${item}`}
+              />
+            );
           })}
         </tr>
       );
@@ -74,6 +81,3 @@ class App extends Component {
 }
 
 export default App;
-
-// Ideen er enkel: Vi representerer alle radene i matrisen med en tabell.
-// Vi går videre og setter opp en
