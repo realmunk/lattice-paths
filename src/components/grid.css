@@ -1,0 +1,26 @@
+.grid {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.cell {
+  height: 24px;
+  width: 24px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  background-color: rgb(255, 255, 255);
+  transition: background-color ease-in 50ms;
+}
+
+.E {
+  background: red;
+}
+
+.S {
+  background: blue;
+}
+
+.ES,
+.SE {
+  background: powderblue;
+}

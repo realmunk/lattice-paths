@@ -1,15 +1,20 @@
 import React, { Component } from "react";
 import "./App.css";
 
+import Logo from "./logo.svg";
+
 import { findLatticePaths } from "./lattice-paths";
+
+import { Grid } from "./components/grid";
+import { Counter } from "./components/counter";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      gridSize: 4
+      gridSize: 12
     };
-    this.findPaths(4);
+    this.findPaths(this.state.gridSize);
   }
 
   generateGrid = gridSize => {
@@ -18,7 +23,7 @@ class App extends Component {
       .map(() => Array(gridSize).fill());
   };
 
-  visualizePath = (finished, STEPS, LAST_SYMBOL = undefined, x = 0, y = 0) => {
+  visualizePath = (finished, STEPS, x = 0, y = 0) => {
     const grid = this.state.grid;
     const SYMBOL = STEPS[0];
 
@@ -40,7 +45,7 @@ class App extends Component {
       y++;
     }
 
-    // normalize the steps so they don't go over the grid
+    // as the steps can go both on the inside and outside of a grid item, make sure they dont.
     if (x === grid.length) {
       x = grid.length - 1;
     }
@@ -54,7 +59,7 @@ class App extends Component {
       },
       () => {
         setTimeout(() => {
-          this.visualizePath(finished, STEPS.substring(1), SYMBOL, x, y);
+          this.visualizePath(finished, STEPS.substring(1), x, y);
         }, 175);
       }
     );
@@ -103,47 +108,19 @@ class App extends Component {
   };
 
   render() {
-    let Representation = null;
-
-    if (this.state.grid) {
-      Representation = this.state.grid.map((row, index) => {
-        return (
-          <tr
-            key={`row${index}`}
-            style={{ height: `${60 / this.state.gridSize}vh` }}
-          >
-            {row.map((step, subIndex) => {
-              return (
-                <td
-                  key={`column${index}-${subIndex}`}
-                  className={`cell ${step}`}
-                />
-              );
-            })}
-          </tr>
-        );
-      });
-    }
-
     return (
       <div className="container">
-        {this.state.current && (
-          <h1>
-            Visualizing route: {this.state.current} /{" "}
-            {this.state.latticePaths.length}
-          </h1>
-        )}
-        <table className="table">
-          <tbody>{Representation}</tbody>
-        </table>
-        <div>
-          <label>Grid Size: </label>>
-          <input
-            name="gridSize"
-            value={this.state.gridSize}
-            onChange={this.onChange}
-          />
-          <button onClick={this.generatePaths}>Find Paths</button>
+        <div className="flex-center">
+          <img src={Logo} className="logo" />
+          <h3>Visualisering med React og Redux</h3>
+
+          {<Grid grid={this.state.grid} />}
+          {
+            <Counter
+              current={this.state.current}
+              nrOfPaths={this.state.latticePaths}
+            />
+          }
         </div>
       </div>
     );
