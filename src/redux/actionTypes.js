@@ -1,4 +1,6 @@
 export const GENERATE_LATTICE_PATHS = "GENERATE_LATTICE_PATHS";
 
 export const UPDATE_ACTIVE_PATH = "VISUALIZE_PATH";
-export const SET_FILTER = "SET_FILTER";
+
+export const CLEAR_GRID = "CLEAR_GRID";
+export const UPDATE_GRID = "UPDATE_GRID";

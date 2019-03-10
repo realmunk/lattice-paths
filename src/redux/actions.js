@@ -1,22 +1,16 @@
-import {
-  GENERATE_LATTICE_PATHS,
-  VISUALIZE_PATH,
-  SET_FILTER
-} from "./actionTypes";
+import { CLEAR_GRID } from "./actionTypes";
 
-let nextTodoId = 0;
+export const clear = _grid => {
+  const grid = _grid.slice(0);
 
-export const addTodo = content => ({
-  type: GENERATE_LATTICE_PATHS,
-  payload: {
-    id: ++nextTodoId,
-    content
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid.length; j++) {
+      grid[i][j] = undefined;
+    }
   }
-});
 
-export const toggleTodo = id => ({
-  type: VISUALIZE_PATH,
-  payload: { id }
-});
-
-export const setFilter = filter => ({ type: SET_FILTER, payload: { filter } });
+  return {
+    type: CLEAR_GRID,
+    payload: { grid }
+  };
+};

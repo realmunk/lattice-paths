@@ -17,12 +17,6 @@ class App extends Component {
     this.findPaths(this.state.gridSize);
   }
 
-  generateGrid = gridSize => {
-    return Array(gridSize)
-      .fill()
-      .map(() => Array(gridSize).fill());
-  };
-
   visualizePath = (finished, STEPS, x = 0, y = 0) => {
     const grid = this.state.grid;
     const SYMBOL = STEPS[0];
@@ -45,7 +39,7 @@ class App extends Component {
       y++;
     }
 
-    // as the steps can go both on the inside and outside of a grid item, make sure they dont.
+    // as steps be on both edges of a coordinate, we will overflow unless we make sure they dont.
     if (x === grid.length) {
       x = grid.length - 1;
     }
@@ -68,7 +62,7 @@ class App extends Component {
   visualizePaths = async results => {
     for (let i = 0; i < results.length; i++) {
       await new Promise(resolve => {
-        this.clear();
+        this.clear(); // lift into redux state
         this.setState({ current: i + 1 });
         this.visualizePath(resolve, results[i]);
       });
@@ -83,28 +77,19 @@ class App extends Component {
         grid[i][j] = undefined;
       }
     }
-    this.setState({
-      grid
-    });
+  };
+
+  generateGrid = gridSize => {
+    return Array(gridSize)
+      .fill()
+      .map(() => Array(gridSize).fill());
   };
 
   findPaths = async gridSize => {
-    const grid = this.generateGrid(gridSize);
-
     const latticePaths = await findLatticePaths(gridSize);
     this.setState({ ...this.state, latticePaths, grid });
 
     this.visualizePaths(latticePaths);
-  };
-
-  onChange = event => {
-    let gridSize = event.target.value;
-    if (typeof gridSize !== "number") {
-      let gridSize = parseInt(gridSize);
-    }
-    this.setState({
-      [event.target.name]: gridSize
-    });
   };
 
   render() {

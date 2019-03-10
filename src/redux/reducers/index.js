@@ -1,37 +1,22 @@
-import { UPDATE_ACTIVE_PATH, GENERATE_LATTICE_PATHS } from "../actionTypes";
+import {
+  UPDATE_GRID,
+  GENERATE_LATTICE_PATHS,
+  CLEAR_GRID
+} from "../actionTypes";
 
 const initialState = {
-  allIds: [],
-  byIds: {}
+  grid: [],
+  current: null
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_ACTIVE_PATH: {
-      const { id, content } = action.payload;
+    case UPDATE_GRID:
+    case CLEAR_GRID: {
+      const { grid } = action.payload;
       return {
         ...state,
-        allIds: [...state.allIds, id],
-        byIds: {
-          ...state.byIds,
-          [id]: {
-            content,
-            completed: false
-          }
-        }
-      };
-    }
-    case GENERATE_LATTICE_PATHS: {
-      const { id } = action.payload;
-      return {
-        ...state,
-        byIds: {
-          ...state.byIds,
-          [id]: {
-            ...state.byIds[id],
-            completed: !state.byIds[id].completed
-          }
-        }
+        grid
       };
     }
     default:
