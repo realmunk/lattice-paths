@@ -19,16 +19,24 @@ td {
   text-align: center;
   border: 2px solid black;
   background-color: rgb(233, 233, 233);
-  transition: background-color ease-in 150ms;
+  transition: background-color ease-in 5ms;
 }
 
+.X {
+  background: black;
+}
 
 .E {
   background: red;
 }
 
 .S {
-  background: black;
+  background: blue;
+}
+
+.ES,
+.SE {
+  background: pink
 }
 
 .box {
