@@ -1,25 +1,31 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./App.css";
 
 import Logo from "./logo.svg";
 
-import { findLatticePaths } from "./lattice-paths";
-
 import { Grid } from "./components/grid";
 import { Counter } from "./components/counter";
 
+import {
+  clearGrid,
+  calculatePaths,
+  generateGrid,
+  updateGrid
+} from "./redux/actions";
+
+const ANIMATION_TIME = 125;
+
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      gridSize: 12
-    };
-    this.findPaths(this.state.gridSize);
+  componentDidMount() {
+    const size = 6;
+    this.props.generateGrid(size);
+    this.props.calculatePaths(size);
   }
 
   visualizePath = (finished, STEPS, x = 0, y = 0) => {
-    const grid = this.state.grid;
     const SYMBOL = STEPS[0];
+    const { grid } = this.props;
 
     if (!STEPS) {
       return finished();
@@ -47,64 +53,43 @@ class App extends Component {
       y = grid.length - 1;
     }
 
-    this.setState(
-      {
-        grid
-      },
-      () => {
-        setTimeout(() => {
-          this.visualizePath(finished, STEPS.substring(1), x, y);
-        }, 175);
-      }
-    );
+    // this will force an update due to shallowEquals
+    this.props.updateGrid(x, y);
+
+    setTimeout(() => {
+      this.visualizePath(finished, STEPS.substring(1), x, y);
+    }, ANIMATION_TIME);
   };
 
-  visualizePaths = async results => {
-    for (let i = 0; i < results.length; i++) {
+  visualizePaths = async () => {
+    const { paths } = this.props;
+
+    for (let i = 0; i < paths.length; i++) {
       await new Promise(resolve => {
-        this.clear(); // lift into redux state
-        this.setState({ current: i + 1 });
-        this.visualizePath(resolve, results[i]);
+        this.props.clearGrid();
+        this.visualizePath(resolve, paths[i]);
       });
     }
-  };
-
-  clear = () => {
-    const { grid, gridSize } = this.state;
-
-    for (let i = 0; i < gridSize; i++) {
-      for (let j = 0; j < gridSize; j++) {
-        grid[i][j] = undefined;
-      }
-    }
-  };
-
-  generateGrid = gridSize => {
-    return Array(gridSize)
-      .fill()
-      .map(() => Array(gridSize).fill());
-  };
-
-  findPaths = async gridSize => {
-    const latticePaths = await findLatticePaths(gridSize);
-    this.setState({ ...this.state, latticePaths, grid });
-
-    this.visualizePaths(latticePaths);
   };
 
   render() {
     return (
       <div className="container">
         <div className="flex-center">
-          <img src={Logo} className="logo" />
+          <img src={Logo} alt="Logo" className="logo" />
           <h3>Visualisering med React og Redux</h3>
 
-          {<Grid grid={this.state.grid} />}
+          {<Grid grid={this.props.grid} />}
           {
             <Counter
-              current={this.state.current}
-              nrOfPaths={this.state.latticePaths}
+              current={this.props.current}
+              nrOfPaths={this.props.nrOfPaths}
             />
+          }
+          {
+            <button className="visualization" onClick={this.visualizePaths}>
+              VISUALIZE
+            </button>
           }
         </div>
       </div>
@@ -112,4 +97,26 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    loading: state.loading,
+    grid: state.grid,
+    current: state.current,
+    paths: state.paths,
+    nrOfPaths: state.paths.length
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    clearGrid: () => dispatch(clearGrid()),
+    generateGrid: size => dispatch(generateGrid(size)),
+    calculatePaths: size => dispatch(calculatePaths(size)),
+    updateGrid: (x, y) => dispatch(updateGrid(x, y))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

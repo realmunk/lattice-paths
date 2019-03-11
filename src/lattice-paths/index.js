@@ -11,13 +11,15 @@ function factorial(num) {
   return num;
 }
 
+// calculate the number of possible lattice paths
 export function nrOfLatticePaths(_gridSize) {
   return (
     factorial(_gridSize * 2) / (factorial(_gridSize) * factorial(_gridSize))
   );
 }
 
-export function findLatticePaths(_gridSize) {
+// calculate and memoize the possible lattice paths
+export function calculateLatticePaths(_gridSize) {
   const steps = _gridSize + _gridSize;
 
   const paths = [];
@@ -25,6 +27,7 @@ export function findLatticePaths(_gridSize) {
   function pathFinder(accumulator = "", S = 0, E = 0) {
     if (steps === S + E) {
       paths.push(accumulator);
+      return paths;
     }
 
     if (E < steps / 2) {
@@ -37,5 +40,6 @@ export function findLatticePaths(_gridSize) {
   }
 
   pathFinder();
+
   return paths;
 }

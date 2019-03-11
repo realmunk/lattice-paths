@@ -1,16 +1,40 @@
-import { CLEAR_GRID } from "./actionTypes";
+import {
+  CLEAR_GRID,
+  GENERATE_GRID,
+  UPDATE_GRID,
+  CALCULATE_PATHS,
+  GENERATING_PATHS
+} from "./actionTypes";
 
-export const clear = _grid => {
-  const grid = _grid.slice(0);
-
-  for (let i = 0; i < grid.length; i++) {
-    for (let j = 0; j < grid.length; j++) {
-      grid[i][j] = undefined;
-    }
-  }
-
+export const calculatePaths = size => {
   return {
-    type: CLEAR_GRID,
-    payload: { grid }
+    type: CALCULATE_PATHS,
+    payload: { size }
+  };
+};
+
+export const updateGrid = (move, x, y) => {
+  return {
+    type: UPDATE_GRID,
+    payload: { x, y }
+  };
+};
+
+export const generatingPaths = () => {
+  return {
+    type: GENERATING_PATHS
+  };
+};
+
+export const generateGrid = size => {
+  return {
+    type: GENERATE_GRID,
+    payload: { size }
+  };
+};
+
+export const clearGrid = _grid => {
+  return {
+    type: CLEAR_GRID
   };
 };

@@ -23,6 +23,14 @@
   width: auto;
 }
 
+.visualization {
+  margin-top: 13px;
+  background: #424242;
+  color: white;
+  font-weight: bold;
+  padding: 13px 26px;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
