@@ -3,14 +3,16 @@ import { RUN_VISUALIZATION } from "../actionTypes";
 
 import {
   generateGrid,
-  runVisualizationFailed,
   updateGrid,
+  runVisualizationFailed,
+  runVisualizationSucceeded,
   visualizePathRequested,
   visualizePathSucceeded,
   visualizePathFailed
 } from "../actions";
 
-const ANIMATION_TIME = 125;
+let count = 0;
+const ANIMATION_TIME = 250;
 
 function* runVisualisation() {
   try {
@@ -19,20 +21,23 @@ function* runVisualisation() {
 
     for (let i = 0; i < paths.length; i++) {
       const { grid } = yield select(state => state);
-      yield visualizePath(grid, paths[i]);
+      yield visualizePath(grid, paths[i], i + 1);
+      yield delay(750);
       yield put(generateGrid(grid.length));
       yield delay(250);
     }
+
+    yield put(runVisualizationSucceeded());
   } catch (e) {
     yield put(runVisualizationFailed(e.message));
   }
 }
 
-function* visualizePath(grid, path, x = 0, y = 0) {
+function* visualizePath(grid, path, index, x = 0, y = 0) {
   try {
     let currentMove, nextMove;
 
-    yield put(visualizePathRequested(path));
+    yield put(visualizePathRequested(path, index));
 
     for (let i = 0; i < path.length; i++) {
       currentMove = path[i];
@@ -40,7 +45,7 @@ function* visualizePath(grid, path, x = 0, y = 0) {
 
       grid[y][x] = grid[y][x] ? grid[y][x] + currentMove : currentMove;
       let move = grid[y][x];
-
+      yield put(updateGrid(move, x, y));
       // move diagonally
       if (move.length === 2) {
         x++;
@@ -53,7 +58,7 @@ function* visualizePath(grid, path, x = 0, y = 0) {
         y++;
       }
 
-      // as steps be on both edges of a coordinate, we will overflow unless we make sure they dont.
+      // as steps are on both edges of a coordinate, we will overflow unless we make sure they dont.
       if (x === grid.length) {
         x = grid.length - 1;
       }
@@ -61,7 +66,6 @@ function* visualizePath(grid, path, x = 0, y = 0) {
         y = grid.length - 1;
       }
 
-      yield put(updateGrid(move, x, y));
       yield delay(ANIMATION_TIME);
     }
 

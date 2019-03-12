@@ -23,7 +23,7 @@
   width: auto;
 }
 
-.visualization {
+.button {
   margin-top: 13px;
   background: #424242;
   color: white;
@@ -31,7 +31,7 @@
   padding: 13px 26px;
 }
 
-.visualization:disabled {
+.button:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }

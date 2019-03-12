@@ -15,7 +15,8 @@ import {
   VISUALIZE_PATH,
   VISUALIZE_PATH_REQUESTED,
   VISUALIZE_PATH_SUCCEEDED,
-  VISUALIZE_PATH_FAILED
+  VISUALIZE_PATH_FAILED,
+  RUN_VISUALIZATION_SUCCEEDED
 } from "./actionTypes";
 
 /**
@@ -107,6 +108,12 @@ export const runVisualization = () => {
   };
 };
 
+export const runVisualizationSucceeded = () => {
+  return {
+    type: RUN_VISUALIZATION_SUCCEEDED
+  };
+};
+
 export const runVisualizationFailed = message => {
   return {
     type: RUN_VISUALIZATION_FAILED,
@@ -114,19 +121,18 @@ export const runVisualizationFailed = message => {
   };
 };
 
-export const visualizePath = message => {
+export const visualizePath = () => {
   return {
-    type: VISUALIZE_PATH,
-    message
+    type: VISUALIZE_PATH
   };
 };
 
-export const visualizePathRequested = (currentPath, currentPosition) => {
+export const visualizePathRequested = (currentPath, currentIndex) => {
   return {
     type: VISUALIZE_PATH_REQUESTED,
     payload: {
       currentPath,
-      currentPosition
+      currentIndex
     }
   };
 };

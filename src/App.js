@@ -21,6 +21,7 @@ class App extends Component {
     const {
       grid,
       currentPath,
+      currentIndex,
       possiblePaths,
       runVisualization,
       loading
@@ -31,12 +32,13 @@ class App extends Component {
           <Header />
           <Grid grid={grid} />
           <Description
+            currentIndex={currentIndex}
             currentPath={currentPath}
             possiblePaths={possiblePaths}
           />
           {
             <button
-              className="visualization"
+              className="button"
               onClick={runVisualization}
               disabled={loading}
             >
@@ -53,7 +55,8 @@ const mapStateToProps = state => {
   return {
     loading: state.loading,
     grid: state.grid,
-    currentPath: state.current,
+    currentIndex: state.currentIndex,
+    currentPath: state.currentPath,
     possiblePaths: state.possiblePaths,
     paths: state.paths
   };

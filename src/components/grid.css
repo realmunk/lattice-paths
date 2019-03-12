@@ -8,19 +8,19 @@
   width: 24px;
   text-align: center;
   border: 1px solid rgba(0, 0, 0, 0.5);
-  background-color: rgb(255, 255, 255);
-  transition: background-color ease-in 50ms;
 }
 
-.E {
-  background: red;
+.E::before {
+  content: "→";
 }
 
-.S {
-  background: blue;
+.S::before {
+  content: "↓";
 }
 
-.ES,
-.SE {
-  background: powderblue;
+.ES::before {
+  content: "→↓";
+}
+.SE::before {
+  content: "↓→";
 }
