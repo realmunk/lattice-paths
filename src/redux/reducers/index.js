@@ -1,61 +1,87 @@
 import {
+  GRID_CLEARED,
+  UPDATE_GRID,
+  SETUP_REQUESTED,
+  SETUP_SUCCEEDED,
   GENERATE_GRID,
-  CLEAR_GRID,
-  CALCULATE_PATHS,
-  UPDATE_GRID
+  PATHS_CALCULATED,
+  GENERATE_PATHS_REQUESTED,
+  GENERATE_PATHS_SUCCEEDED
 } from "../actionTypes";
 
-import { calculateLatticePaths } from "../../lattice-paths";
-
 const initialState = {
+  loading: false,
   grid: [],
   paths: [],
+  possiblePaths: 0,
   currentPath: 0,
   x: 0,
   y: 0,
-  current: null
+  current: null,
+  move: null
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case CALCULATE_PATHS:
+    case SETUP_REQUESTED:
       return {
         ...state,
-        paths: calculateLatticePaths(action.payload.size)
+        loading: true
       };
 
-    case UPDATE_GRID:
-      const { x, y } = action.payload;
+    case SETUP_SUCCEEDED:
       return {
         ...state,
-        grid: [...state.grid.slice(0)],
-        x,
-        y
+        loading: false
       };
 
     case GENERATE_GRID:
       const { size } = action.payload;
-      const generatedGrid = Array(size)
-        .fill()
-        .map(() => Array(size).fill());
       return {
         ...state,
-        grid: generatedGrid
+        grid: Array(size)
+          .fill()
+          .map(() => Array(size).fill())
       };
 
-    case CLEAR_GRID: {
-      const grid = state.grid.slice(0);
-
-      for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid.length; j++) {
-          grid[i][j] = undefined;
-        }
-      }
+    case PATHS_CALCULATED:
+      const { possiblePaths } = action.payload;
       return {
         ...state,
-        grid
+        possiblePaths
       };
-    }
+
+    case GENERATE_PATHS_REQUESTED:
+      return {
+        ...state
+      };
+
+    case GENERATE_PATHS_SUCCEEDED:
+      const { paths } = action.payload;
+      return {
+        ...state,
+        paths
+      };
+
+    case UPDATE_GRID:
+      const { move, x, y } = action.payload;
+      return {
+        ...state,
+        move,
+        x,
+        y,
+        grid: [
+          ...state.grid.slice(0, y),
+          state.grid[y].map((item, index) => {
+            if (index === x) {
+              return move;
+            }
+            return item;
+          }),
+          ...state.grid.slice(y + 1, state.grid.length)
+        ]
+      };
+
     default:
       return state;
   }

@@ -13,7 +13,7 @@
   justify-content: center;
 }
 
-.flex-center>* {
+.flex-center > * {
   flex: 0 1 auto;
 }
 
@@ -29,6 +29,11 @@
   color: white;
   font-weight: bold;
   padding: 13px 26px;
+}
+
+.visualization:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
 @keyframes App-logo-spin {

@@ -12,14 +12,14 @@ function factorial(num) {
 }
 
 // calculate the number of possible lattice paths
-export function nrOfLatticePaths(_gridSize) {
+function calculatePaths(_gridSize) {
   return (
     factorial(_gridSize * 2) / (factorial(_gridSize) * factorial(_gridSize))
   );
 }
 
 // calculate and memoize the possible lattice paths
-export function calculateLatticePaths(_gridSize) {
+function generatePaths(_gridSize) {
   const steps = _gridSize + _gridSize;
 
   const paths = [];
@@ -43,3 +43,8 @@ export function calculateLatticePaths(_gridSize) {
 
   return paths;
 }
+
+module.exports = {
+  calculatePaths,
+  generatePaths
+};

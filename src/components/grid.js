@@ -1,7 +1,5 @@
 import React from "react";
 
-import "./grid.css";
-
 export const Grid = ({ grid }) => {
   let Representation = null;
   if (!grid || !grid.length) {
