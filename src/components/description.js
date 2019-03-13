@@ -1,12 +1,9 @@
 import React, { Fragment } from "react";
 
-import "./grid.css";
-
-export const Description = ({ possiblePaths }) => {
+export const Description = ({}) => {
   return (
     <Fragment>
-      <p>How many such routes are possible in a 12x12 grid?</p>
-      <h3>{possiblePaths}</h3>
+      <p>How can we represent a grid in the redux store?</p>
     </Fragment>
   );
 };
