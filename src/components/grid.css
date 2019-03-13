@@ -1,26 +1,23 @@
-.grid {
+table {
   table-layout: fixed;
   border-collapse: collapse;
 }
 
-.cell {
+td {
   height: 24px;
   width: 24px;
   text-align: center;
   border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
-.E::before {
-  content: "→";
+.E {
+  background: red;
 }
 
-.S::before {
-  content: "↓";
+.S {
+  background: blue;
 }
-
-.ES::before {
-  content: "→↓";
-}
-.SE::before {
-  content: "↓→";
+.SE,
+.ES {
+  background: purple;
 }
