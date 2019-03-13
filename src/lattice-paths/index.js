@@ -11,37 +11,28 @@ function factorial(num) {
   return num;
 }
 
-// calculate the number of possible lattice paths
+// calculatePaths: calculates the number of possible lattice paths
+
+// 1. You are only move to East or South,
+// 2. You start in the top left corner
+// 3. You end in the bottom right corner
+
 function calculatePaths(_gridSize) {
-  return (
-    factorial(_gridSize * 2) / (factorial(_gridSize) * factorial(_gridSize))
-  );
+  // TODO: Calculate the number of possible paths through the grid.
+  // PS: The factorial function is here for a reason.
+
+  return "?";
 }
 
-// calculate and memoize the possible lattice paths
+// generatePaths() : generates the possible lattice paths
+
+// 1. A given path through the matrice is represented as a string
+// 2. The path only consists of two characters, representing East with 'E' and South with 'S'
+
 function generatePaths(_gridSize) {
-  const moves = _gridSize + _gridSize;
-
-  const paths = [];
-
-  function pathFinder(accumulator = "", S = 0, E = 0) {
-    if (moves === S + E) {
-      paths.push(accumulator);
-      return paths;
-    }
-
-    if (E < moves / 2) {
-      pathFinder(accumulator + "E", S, E + 1);
-    }
-
-    if (S < moves / 2) {
-      pathFinder(accumulator + "S", S + 1, E);
-    }
-  }
-
-  pathFinder();
-
-  return paths;
+  // TODO: Generate all the possible paths through the grid
+  // PS: This format is important, as it is what is expected across the program.
+  return ["EEEEEEEEEEEESSSSSSSSSSSS"];
 }
 
 module.exports = {
