@@ -45,7 +45,9 @@ export default function(state = initialState, action) {
 
       return {
         ...state,
-        grid: [["", ""], ["", ""]] // PS: The shape here is important.
+        grid: Array(size)
+          .fill()
+          .map(() => Array(size).fill())
       };
 
     case PATHS_CALCULATED:

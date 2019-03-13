@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 
-export const Description = ({}) => {
+export const Description = () => {
   return (
     <Fragment>
-      <p>How can we represent a grid in the redux store?</p>
+      <p>How can we visualize the grid?</p>
     </Fragment>
   );
 };
