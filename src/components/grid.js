@@ -1,5 +1,6 @@
 import React from "react";
 import "./grid.css";
+
 export const Grid = ({ grid }) => {
   let Representation = null;
   if (!grid || !grid.length) {
@@ -10,9 +11,7 @@ export const Grid = ({ grid }) => {
     return (
       <tr key={`row${index}`}>
         {row.map((step, subIndex) => {
-          return (
-            <td key={`column${index}-${subIndex}`} className={`cell ${step}`} />
-          );
+          return <td key={`column${index}-${subIndex}`} className={step} />;
         })}
       </tr>
     );
