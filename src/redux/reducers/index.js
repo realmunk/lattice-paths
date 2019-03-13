@@ -37,13 +37,15 @@ export default function(state = initialState, action) {
         loading: false
       };
 
-    case GENERATE_GRID:
+    case GENERATE_GRID: // TODO: Implement this reducer function
       const { size } = action.payload;
+
+      // GENERATE_GRID: generate a grid based on the size received in the actions payload
+      // the return adds it to the state
+
       return {
         ...state,
-        grid: Array(size)
-          .fill()
-          .map(() => Array(size).fill())
+        grid: [["", ""], ["", ""]] // PS: The shape here is important.
       };
 
     case PATHS_CALCULATED:
