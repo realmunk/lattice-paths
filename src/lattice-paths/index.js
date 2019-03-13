@@ -31,10 +31,29 @@ function calculatePaths(_gridSize) {
 // 3. An example of a valid string follows: 'EEEEEEEEEEEESSSSSSSSSSSS'
 
 function generatePaths(_gridSize) {
-  // TODO: Generate all the possible paths through the grid
-  return ["EEEEEEEEEEEESSSSSSSSSSSS"];
-}
+  const moves = _gridSize + _gridSize;
 
+  const paths = [];
+
+  function pathFinder(accumulator = "", S = 0, E = 0) {
+    if (moves === S + E) {
+      paths.push(accumulator);
+      return paths;
+    }
+
+    if (E < moves / 2) {
+      pathFinder(accumulator + "E", S, E + 1);
+    }
+
+    if (S < moves / 2) {
+      pathFinder(accumulator + "S", S + 1, E);
+    }
+  }
+
+  pathFinder();
+
+  return paths;
+}
 module.exports = {
   calculatePaths,
   generatePaths
