@@ -12,27 +12,18 @@ import {
   runVisualizationRequested
 } from "../actions";
 
-/*
- *
- * We keep the paths out of the store, as they will break the dev-tools due to their huge size.
- *
- */
-let paths = [];
+let paths = []; // PS: we keep paths outside of the store, as they will break the dev-tools due to their huge size.
 
 const ANIMATION_TIME = 75;
 
+// runVisualization: Make this particular function able to run through the defined paths
 function* runVisualisation() {
   try {
-    yield put(runVisualizationRequested());
-    for (let i = 0; i < paths.length; i++) {
-      const { grid } = yield select(state => state);
-      yield visualizePath(grid, paths[i], i + 1);
-      yield delay(500);
-      yield put(generateGrid(grid.length));
-      yield delay(250);
-    }
-
-    yield put(runVisualizationSucceeded());
+    console.log("Good job.");
+    console.log("All the paths are available here as", paths);
+    console.log(
+      "This is due to the connection between GENERATE_PATHS_SUCCEEDED and the storePaths in visualizationSaga"
+    );
   } catch (e) {
     yield put(runVisualizationFailed(e.message));
   }
@@ -50,7 +41,7 @@ function* visualizePath(grid, path, index, x = 0, y = 0) {
 
       grid[y][x] = grid[y][x] ? grid[y][x] + currentMove : currentMove;
 
-      // we start by updating the grid
+      // we start by updating the grid with the current move
       yield put(visualizeStep(grid[y][x], x, y));
 
       // move diagonally
@@ -85,7 +76,10 @@ function* visualizePath(grid, path, index, x = 0, y = 0) {
 function storePaths(action) {
   paths = action.payload.paths;
 }
+
+// visualizationSaga: registers specific actions to trigger functions
 export function* visualizationSaga() {
   yield takeLatest(GENERATE_PATHS_SUCCEEDED, storePaths);
-  yield takeLatest(RUN_VISUALIZATION, runVisualisation);
+
+  // Start HERE by implementing a connection between the RUN_VISUALIZATION action and this saga...
 }
