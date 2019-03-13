@@ -21,13 +21,16 @@ let paths = [];
 
 const ANIMATION_TIME = 75;
 
-function* runVisualization() {
+function* runVisualisation() {
   try {
     yield put(runVisualizationRequested());
+
+    // TODO: A visualization should run through all the paths
     const { grid } = yield select(state => state);
-
-    // TODO: Write a solution for animating a particular path
-
+    yield visualizePath(grid, paths[0], 1);
+    yield delay(500);
+    yield put(generateGrid(grid.length));
+    yield delay(250);
     yield put(runVisualizationSucceeded());
   } catch (e) {
     yield put(runVisualizationFailed(e.message));
@@ -84,5 +87,5 @@ function storePaths(action) {
 }
 export function* visualizationSaga() {
   yield takeLatest(GENERATE_PATHS_SUCCEEDED, storePaths);
-  yield takeLatest(RUN_VISUALIZATION, runVisualization);
+  yield takeLatest(RUN_VISUALIZATION, runVisualisation);
 }
