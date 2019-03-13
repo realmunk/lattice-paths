@@ -10,7 +10,7 @@ import { setup, runVisualization } from "./redux/actions";
 
 class App extends Component {
   state = {
-    size: 2
+    size: 12
   };
 
   componentDidMount() {

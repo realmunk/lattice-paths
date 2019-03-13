@@ -20,21 +20,21 @@ function calculatePaths(_gridSize) {
 
 // calculate and memoize the possible lattice paths
 function generatePaths(_gridSize) {
-  const steps = _gridSize + _gridSize;
+  const moves = _gridSize + _gridSize;
 
   const paths = [];
 
   function pathFinder(accumulator = "", S = 0, E = 0) {
-    if (steps === S + E) {
+    if (moves === S + E) {
       paths.push(accumulator);
       return paths;
     }
 
-    if (E < steps / 2) {
+    if (E < moves / 2) {
       pathFinder(accumulator + "E", S, E + 1);
     }
 
-    if (S < steps / 2) {
+    if (S < moves / 2) {
       pathFinder(accumulator + "S", S + 1, E);
     }
   }
