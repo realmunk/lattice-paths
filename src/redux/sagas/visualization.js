@@ -1,9 +1,9 @@
 import { delay, put, takeLatest, select } from "redux-saga/effects";
-import { RUN_VISUALIZATION } from "../actionTypes";
+import { RUN_VISUALIZATION, GENERATE_PATHS_SUCCEEDED } from "../actionTypes";
 
 import {
   generateGrid,
-  updateGrid,
+  visualizeStep,
   runVisualizationFailed,
   runVisualizationSucceeded,
   visualizePathRequested,
@@ -11,18 +11,21 @@ import {
   visualizePathFailed
 } from "../actions";
 
-let count = 0;
-const ANIMATION_TIME = 250;
+/*
+ *
+ * We keep the paths out of the store, as they will break the dev-tools due to their huge size.
+ *
+ */
+let paths = [];
+
+const ANIMATION_TIME = 75;
 
 function* runVisualisation() {
   try {
-    // to have reached this destination ... we know we have all the paths. lets grab em!
-    const { paths } = yield select(state => state);
-
     for (let i = 0; i < paths.length; i++) {
       const { grid } = yield select(state => state);
       yield visualizePath(grid, paths[i], i + 1);
-      yield delay(750);
+      yield delay(500);
       yield put(generateGrid(grid.length));
       yield delay(250);
     }
@@ -44,10 +47,12 @@ function* visualizePath(grid, path, index, x = 0, y = 0) {
       nextMove = path[i + 1];
 
       grid[y][x] = grid[y][x] ? grid[y][x] + currentMove : currentMove;
-      let move = grid[y][x];
-      yield put(updateGrid(move, x, y));
+
+      // we start by updating the grid
+      yield put(visualizeStep(grid[y][x], x, y));
+
       // move diagonally
-      if (move.length === 2) {
+      if (grid[y][x].length === 2) {
         x++;
         y++;
       } else if (currentMove === "E" && nextMove === "E") {
@@ -58,7 +63,7 @@ function* visualizePath(grid, path, index, x = 0, y = 0) {
         y++;
       }
 
-      // as steps are on both edges of a coordinate, we will overflow unless we make sure they dont.
+      // as steps will be on both edges of a column/row position, we will overflow unless we make sure they dont.
       if (x === grid.length) {
         x = grid.length - 1;
       }
@@ -75,6 +80,10 @@ function* visualizePath(grid, path, index, x = 0, y = 0) {
   }
 }
 
+function storePaths(action) {
+  paths = action.payload.paths;
+}
 export function* visualizationSaga() {
+  yield takeLatest(GENERATE_PATHS_SUCCEEDED, storePaths);
   yield takeLatest(RUN_VISUALIZATION, runVisualisation);
 }

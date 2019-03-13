@@ -1,20 +1,16 @@
 import {
-  UPDATE_GRID,
+  VISUALIZE_STEP,
   SETUP_REQUESTED,
   SETUP_SUCCEEDED,
   GENERATE_GRID,
   PATHS_CALCULATED,
-  GENERATE_PATHS_REQUESTED,
-  GENERATE_PATHS_SUCCEEDED,
   VISUALIZE_PATH_REQUESTED,
-  VISUALIZE_PATH_SUCCEEDED,
   RUN_VISUALIZATION_SUCCEEDED
 } from "../actionTypes";
 
 const initialState = {
   loading: false,
   grid: [],
-  paths: [],
   possiblePaths: 0,
   currentPath: 0,
   currentIndex: 0,
@@ -54,18 +50,6 @@ export default function(state = initialState, action) {
         possiblePaths
       };
 
-    case GENERATE_PATHS_REQUESTED:
-      return {
-        ...state
-      };
-
-    case GENERATE_PATHS_SUCCEEDED:
-      const { paths } = action.payload;
-      return {
-        ...state,
-        paths
-      };
-
     case VISUALIZE_PATH_REQUESTED:
       return {
         ...state,
@@ -82,7 +66,8 @@ export default function(state = initialState, action) {
         currentIndex: 0,
         currentPath: 0
       };
-    case UPDATE_GRID:
+
+    case VISUALIZE_STEP:
       const { move, x, y } = action.payload;
       return {
         ...state,

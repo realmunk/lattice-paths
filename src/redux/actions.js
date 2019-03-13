@@ -8,7 +8,7 @@ import {
   GENERATE_PATHS_SUCCEEDED,
   GENERATE_PATHS_FAILED,
   PATHS_CALCULATED,
-  UPDATE_GRID,
+  VISUALIZE_STEP,
   GENERATE_GRID,
   RUN_VISUALIZATION,
   RUN_VISUALIZATION_FAILED,
@@ -23,9 +23,9 @@ import {
  * sync actions
  * */
 
-export const updateGrid = (move, x, y) => {
+export const visualizeStep = (move, x, y) => {
   return {
-    type: UPDATE_GRID,
+    type: VISUALIZE_STEP,
     payload: { move, x, y }
   };
 };
@@ -102,9 +102,12 @@ export const generatePathsFailed = message => {
   };
 };
 
-export const runVisualization = () => {
+export const runVisualization = index => {
   return {
-    type: RUN_VISUALIZATION
+    type: RUN_VISUALIZATION,
+    payload: {
+      index
+    }
   };
 };
 

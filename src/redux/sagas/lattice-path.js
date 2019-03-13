@@ -19,14 +19,14 @@ function* runSetup(action) {
     const { size } = action.payload;
     yield put(setupRequested());
 
-    // we start by constructing a grid
+    // start by constructing a grid
     yield put(generateGrid(size));
 
-    // we calculate the number of all possible routes
+    // calculate the number of all possible routes
     const possiblePaths = yield calculatePaths(size);
     yield put(pathsCalculated(possiblePaths));
 
-    // we generate the possible routes (as this is an async operation, it will put its own actions)
+    // generate the possible routes (as this is an async operation, it will put its own actions)
     yield generateLatticePaths(size);
 
     // setup is finished.
@@ -45,7 +45,6 @@ function* generateLatticePaths(size) {
 
     const paths = yield generatePaths(size);
     const timeSpent = startTime - Date.now();
-
     yield put(generatePathsSucceeded(paths, timeSpent));
     return true;
   } catch (e) {
