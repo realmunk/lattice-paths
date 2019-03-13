@@ -5,11 +5,14 @@ import {
   GENERATE_GRID,
   PATHS_CALCULATED,
   VISUALIZE_PATH_REQUESTED,
-  RUN_VISUALIZATION_SUCCEEDED
+  RUN_VISUALIZATION_REQUESTED,
+  RUN_VISUALIZATION_SUCCEEDED,
+  RUN_VISUALIZATION_FAILED
 } from "../actionTypes";
 
 const initialState = {
   loading: false,
+  runningVisualization: false,
   grid: [],
   possiblePaths: 0,
   currentPath: 0,
@@ -57,9 +60,17 @@ export default function(state = initialState, action) {
         currentPath: action.payload.currentPath
       };
 
+    case RUN_VISUALIZATION_REQUESTED:
+      return {
+        ...state,
+        runningVisualization: true
+      };
+
+    case RUN_VISUALIZATION_FAILED:
     case RUN_VISUALIZATION_SUCCEEDED:
       return {
         ...state,
+        runningVisualization: false,
         move: null,
         x: 0,
         y: 0,

@@ -10,7 +10,7 @@ import { setup, runVisualization } from "./redux/actions";
 
 class App extends Component {
   state = {
-    size: 12
+    size: 2
   };
 
   componentDidMount() {
@@ -24,6 +24,7 @@ class App extends Component {
       currentIndex,
       possiblePaths,
       runVisualization,
+      runningVisualization,
       loading
     } = this.props;
     return (
@@ -40,9 +41,10 @@ class App extends Component {
             <button
               className="button"
               onClick={runVisualization}
-              disabled={loading}
+              disabled={loading || runningVisualization}
             >
-              Run Visualization
+              {runningVisualization && "Visualizing paths"}
+              {!runningVisualization && "Visualize"}
             </button>
           }
         </div>
@@ -54,6 +56,7 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     loading: state.loading,
+    runningVisualization: state.runningVisualization,
     grid: state.grid,
     currentIndex: state.currentIndex,
     currentPath: state.currentPath,

@@ -8,7 +8,8 @@ import {
   runVisualizationSucceeded,
   visualizePathRequested,
   visualizePathSucceeded,
-  visualizePathFailed
+  visualizePathFailed,
+  runVisualizationRequested
 } from "../actions";
 
 /*
@@ -22,6 +23,7 @@ const ANIMATION_TIME = 75;
 
 function* runVisualisation() {
   try {
+    yield put(runVisualizationRequested());
     for (let i = 0; i < paths.length; i++) {
       const { grid } = yield select(state => state);
       yield visualizePath(grid, paths[i], i + 1);

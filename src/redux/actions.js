@@ -11,12 +11,13 @@ import {
   VISUALIZE_STEP,
   GENERATE_GRID,
   RUN_VISUALIZATION,
+  RUN_VISUALIZATION_REQUESTED,
   RUN_VISUALIZATION_FAILED,
+  RUN_VISUALIZATION_SUCCEEDED,
   VISUALIZE_PATH,
   VISUALIZE_PATH_REQUESTED,
   VISUALIZE_PATH_SUCCEEDED,
-  VISUALIZE_PATH_FAILED,
-  RUN_VISUALIZATION_SUCCEEDED
+  VISUALIZE_PATH_FAILED
 } from "./actionTypes";
 
 /**
@@ -102,12 +103,15 @@ export const generatePathsFailed = message => {
   };
 };
 
-export const runVisualization = index => {
+export const runVisualization = () => {
   return {
-    type: RUN_VISUALIZATION,
-    payload: {
-      index
-    }
+    type: RUN_VISUALIZATION
+  };
+};
+
+export const runVisualizationRequested = () => {
+  return {
+    type: RUN_VISUALIZATION_REQUESTED
   };
 };
 
