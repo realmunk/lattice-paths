@@ -1,9 +1,9 @@
-.grid {
+table {
   table-layout: fixed;
   border-collapse: collapse;
 }
 
-.cell {
+td {
   height: 24px;
   width: 24px;
   text-align: center;
@@ -17,8 +17,7 @@
 .S {
   background: blue;
 }
-
-.ES,
-.SE {
+.SE,
+.ES {
   background: purple;
 }
