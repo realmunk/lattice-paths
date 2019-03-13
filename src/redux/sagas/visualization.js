@@ -25,7 +25,7 @@ function* runVisualisation() {
   try {
     yield put(runVisualizationRequested());
 
-    // TODO: A visualization should run through all the paths
+    // TODO: The visualization should run through all the paths
     const { grid } = yield select(state => state);
     yield visualizePath(grid, paths[0], 1);
     yield delay(500);
