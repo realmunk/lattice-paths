@@ -1,7 +1,5 @@
 import React, { Fragment } from "react";
 
-import "./grid.css";
-
 export const Description = ({ possiblePaths }) => {
   return (
     <Fragment>

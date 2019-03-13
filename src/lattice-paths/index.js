@@ -32,7 +32,9 @@ function calculatePaths(_gridSize) {
 
 function generatePaths(_gridSize) {
   // TODO: Generate all the possible paths through the grid
-  return ["EEEEEEEEEEEESSSSSSSSSSSS"];
+  const paths = ["EEEEEEEEEEEESSSSSSSSSSSS"];
+  console.log(paths);
+  return paths;
 }
 
 module.exports = {
