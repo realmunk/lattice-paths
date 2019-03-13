@@ -12,18 +12,15 @@ import {
   runVisualizationRequested
 } from "../actions";
 
-/*
- *
- * We keep the paths out of the store, as they will break the dev-tools due to their huge size.
- *
- */
-let paths = [];
+let paths = []; // PS: we keep our paths outside of the store, as they will break the dev-tools due to their huge size.
 
 const ANIMATION_TIME = 75;
 
+// todo: Get this function up and running ...
 function* runVisualisation() {
   try {
     yield put(runVisualizationRequested());
+
     for (let i = 0; i < paths.length; i++) {
       const { grid } = yield select(state => state);
       yield visualizePath(grid, paths[i], i + 1);
