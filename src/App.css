@@ -1,0 +1,47 @@
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.flex-center {
+  display: flex;
+  min-height: 100vh;
+  justify-items: center;
+  align-items: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-center > * {
+  flex: 0 1 auto;
+}
+
+.logo {
+  animation: App-logo-spin infinite 12s;
+  height: 64px;
+  width: auto;
+}
+
+.button {
+  margin-top: 13px;
+  background: #424242;
+  color: white;
+  font-weight: bold;
+  padding: 13px 26px;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

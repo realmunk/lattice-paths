@@ -1,0 +1,26 @@
+.grid {
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.cell {
+  height: 24px;
+  width: 24px;
+  text-align: center;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.E::before {
+  content: "→";
+}
+
+.S::before {
+  content: "↓";
+}
+
+.ES::before {
+  content: "→↓";
+}
+.SE::before {
+  content: "↓→";
+}
